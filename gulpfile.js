@@ -7,4 +7,8 @@ gulp.task("babel", () => {
         .pipe(gulp.dest("static"));
 });
 
+gulp.task("watch", () => {
+   gulp.watch("src/**/*.js", ["default"]);
+});
+
 gulp.task("default", ["babel"]);

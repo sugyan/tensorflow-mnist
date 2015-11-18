@@ -1,6 +1,7 @@
 class Main {
-    constructor(canvas) {
-        this.canvas = canvas;
+    constructor() {
+        this.canvas = document.getElementById('main');
+        this.sub = document.getElementById('sub');
         this.canvas.width  = 449; // 16 * 28 + 1
         this.canvas.height = 449; // 16 * 28 + 1
         this.ctx = this.canvas.getContext('2d');
@@ -8,7 +9,6 @@ class Main {
         this.canvas.addEventListener('mouseup',   this.onMouseUp.bind(this));
         this.canvas.addEventListener('mousemove', this.onMouseMove.bind(this));
         this.initialize();
-        this.resized = document.createElement('canvas').getContext('2d');
     }
     initialize() {
         this.ctx.fillStyle = '#FFFFFF';
@@ -29,6 +29,7 @@ class Main {
             this.ctx.closePath();
             this.ctx.stroke();
         }
+        this.drawSub();
     }
     onMouseDown(e) {
         this.canvas.style.cursor = 'default';
@@ -37,6 +38,7 @@ class Main {
     }
     onMouseUp() {
         this.drawing = false;
+        this.drawSub();
     }
     onMouseMove(e) {
         if (this.drawing) {
@@ -49,22 +51,6 @@ class Main {
             this.ctx.stroke();
             this.ctx.closePath();
             this.prev = curr;
-
-            var img = new Image();
-            img.onload = () => {
-                this.resized.drawImage(img, 0, 0, img.width, img.height, 0, 0, 28, 28);
-                var inputs = [];
-                var data = this.resized.getImageData(0, 0, 28, 28).data;
-                for (var i = 0; i < 28; i++) {
-                    for (var j = 0; j < 28; j++) {
-                        var n = i * 28 + j;
-                        inputs[n] = (255 - (data[4 * n + 0] + data[4 * n + 1] + data[4 * n + 2]) / 3) / 255;
-                    }
-                }
-                console.log(JSON.stringify(inputs));
-
-            };
-            img.src = this.canvas.toDataURL();
         }
     }
     getPosition(clientX, clientY) {
@@ -74,10 +60,27 @@ class Main {
             y: clientY - rect.top
         };
     }
+    drawSub() {
+        var ctx = this.sub.getContext('2d');
+        var img = new Image();
+        img.onload = () => {
+            var small = document.createElement('canvas').getContext('2d');
+            small.drawImage(img, 0, 0, img.width, img.height, 0, 0, 28, 28);
+            var data = small.getImageData(0, 0, 28, 28).data;
+            for (var i = 0; i < 28; i++) {
+                for (var j = 0; j < 28; j++) {
+                    var n = 4 * (i * 28 + j);
+                    ctx.fillStyle = 'rgb(' + [data[n + 0], data[n + 1], data[n + 2]].join(',') + ')';
+                    ctx.fillRect(j * 5, i * 5, 5, 5);
+                }
+            }
+        };
+        img.src = this.canvas.toDataURL();
+    }
 }
 
-window.addEventListener('load', () => {
-    var main = new Main(document.getElementById('main'));
+window.addEventListener('DOMContentLoaded', () => {
+    var main = new Main();
     document.getElementById('clear').addEventListener('click', () => {
         main.initialize();
     });
