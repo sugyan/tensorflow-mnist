@@ -5,4 +5,4 @@ Jinja2==2.8
 MarkupSafe==0.23
 Werkzeug==0.11.2
 wheel==0.24.0
-https://storage.googleapis.com/tensorflow/mac/tensorflow-0.5.0-py2-none-any.whl
+https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-0.5.0-cp27-none-linux_x86_64.whl
