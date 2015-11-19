@@ -1,3 +1,5 @@
+var $ = require('jquery');
+
 class Main {
     constructor() {
         this.canvas = document.getElementById('main');
@@ -29,7 +31,6 @@ class Main {
             this.ctx.closePath();
             this.ctx.stroke();
         }
-        this.drawSub();
     }
     onMouseDown(e) {
         this.canvas.style.cursor = 'default';
@@ -64,24 +65,53 @@ class Main {
         var ctx = this.sub.getContext('2d');
         var img = new Image();
         img.onload = () => {
+            var inputs = [];
             var small = document.createElement('canvas').getContext('2d');
             small.drawImage(img, 0, 0, img.width, img.height, 0, 0, 28, 28);
             var data = small.getImageData(0, 0, 28, 28).data;
             for (var i = 0; i < 28; i++) {
                 for (var j = 0; j < 28; j++) {
                     var n = 4 * (i * 28 + j);
+                    inputs[i * 28 + j] = (data[n + 0] + data[n + 1] + data[n + 2]) / 3;
                     ctx.fillStyle = 'rgb(' + [data[n + 0], data[n + 1], data[n + 2]].join(',') + ')';
                     ctx.fillRect(j * 5, i * 5, 5, 5);
                 }
             }
+            $.ajax({
+                url: '/api/mnist',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(inputs),
+                success: (data) => {
+                    var max;
+                    var highscore = 0.0;
+                    data.result.forEach((e, i) => {
+                        if (data.result[i] > highscore) {
+                            highscore = data.result[i];
+                            max = i;
+                        }
+                    });
+                    data.result.forEach((e, i) => {
+                        if (i === max) {
+                            $('#output dd').eq(i).html(
+                                $('<strong>').text(String(data.result[i]).substr(0, 5))
+                            );
+                        } else {
+                            $('#output dd').eq(i).html(
+                                $('<span>').text(String(data.result[i]).substr(0, 5))
+                            );
+                        }
+                    });
+                }
+            });
         };
         img.src = this.canvas.toDataURL();
     }
 }
 
-window.addEventListener('DOMContentLoaded', () => {
+$(() => {
     var main = new Main();
-    document.getElementById('clear').addEventListener('click', () => {
+    $('#clear').click(() => {
         main.initialize();
     });
-}, false);
+});

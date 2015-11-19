@@ -1,14 +1,25 @@
 var gulp = require("gulp");
-var babel = require("gulp-babel");
+var babelify = require("babelify");
+var browserify = require("browserify");
+var buffer = require("vinyl-buffer");
+var source = require("vinyl-source-stream");
+var sourcemaps = require('gulp-sourcemaps');
+var uglify = require("gulp-uglify");
 
-gulp.task("babel", () => {
-    return gulp.src("src/**/*.js")
-        .pipe(babel())
-        .pipe(gulp.dest("static"));
+gulp.task("build", () => {
+    return browserify({ entries: ['./src/js/main.js'] })
+        .transform(babelify)
+        .bundle()
+        .pipe(source("main.js"))
+        .pipe(buffer())
+        .pipe(sourcemaps.init())
+        .pipe(uglify())
+        .pipe(sourcemaps.write())
+        .pipe(gulp.dest("static/js"));
 });
 
 gulp.task("watch", () => {
-   gulp.watch("src/**/*.js", ["default"]);
+    gulp.watch("src/**/*.js", ["build"]);
 });
 
-gulp.task("default", ["babel"]);
+gulp.task("default", ["build"]);
