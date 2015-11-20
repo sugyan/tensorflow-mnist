@@ -1,5 +1,4 @@
-var $ = require('jquery');
-
+/*global $*/
 class Main {
     constructor() {
         this.canvas = document.getElementById('main');
