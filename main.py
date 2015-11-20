@@ -19,5 +19,5 @@ def mnist():
     return jsonify(result=output.tolist())
 
 @app.route('/')
-def hello():
+def main():
     return render_template('index.html')
