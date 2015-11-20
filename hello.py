@@ -6,11 +6,11 @@ app = Flask(__name__)
 
 sess_softmax_1000 = tf.Session()
 x = tf.placeholder("float", [1, 784])
-W = tf.Variable(tf.zeros([784,10]), name="W")
-b = tf.Variable(tf.zeros([10]), name="b")
+W = tf.Variable(tf.zeros([784,10]))
+b = tf.Variable(tf.zeros([10]))
 y = tf.nn.softmax(tf.matmul(x,W) + b)
 saver = tf.train.Saver()
-saver.restore(sess_softmax_1000, "tensorflow/data/softmax-1000.ckpt")
+saver.restore(sess_softmax_1000, "tensorflow/data/simple.ckpt")
 
 @app.route('/api/mnist', methods=['POST'])
 def mnist():

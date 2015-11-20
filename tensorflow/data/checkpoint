@@ -1,2 +1,0 @@
-model_checkpoint_path: "data/softmax-1000.ckpt"
-all_model_checkpoint_paths: "data/softmax-1000.ckpt"
