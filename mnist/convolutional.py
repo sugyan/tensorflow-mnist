@@ -21,7 +21,7 @@ saver = tf.train.Saver(variables)
 init = tf.initialize_all_variables()
 with tf.Session() as sess:
     sess.run(init)
-    for i in range(2000):
+    for i in range(20000):
         batch = data.train.next_batch(50)
         if i % 100 == 0:
             train_accuracy = accuracy.eval(feed_dict={x:batch[0], y_: batch[1], keep_prob: 1.0})
