@@ -14,7 +14,7 @@ with tf.variable_scope("simple"):
 saver = tf.train.Saver(variables)
 saver.restore(sess, "mnist/data/simple.ckpt")
 def simple(input):
-    return sess.run(y1, feed_dict={x: input}).flatten()
+    return sess.run(y1, feed_dict={x: input}).flatten().tolist()
 
 with tf.variable_scope("convolutional"):
     keep_prob = tf.placeholder("float")
@@ -22,7 +22,7 @@ with tf.variable_scope("convolutional"):
 saver = tf.train.Saver(variables)
 saver.restore(sess, "mnist/data/convolutional.ckpt")
 def convolutional(input):
-    return sess.run(y2, feed_dict={x: input, keep_prob: 1.0}).flatten()
+    return sess.run(y2, feed_dict={x: input, keep_prob: 1.0}).flatten().tolist()
 
 # webapp
 from flask import Flask, jsonify, render_template, request
@@ -34,8 +34,7 @@ def mnist():
     input = ((255 - np.array(request.json, dtype=np.uint8)) / 255.0).reshape(1, 784)
     output1 = simple(input)
     output2 = convolutional(input)
-    print [output1.tolist(), output2.tolist()]
-    return jsonify(result=output1.tolist())
+    return jsonify(results=[output1, output2])
 
 @app.route('/')
 def main():

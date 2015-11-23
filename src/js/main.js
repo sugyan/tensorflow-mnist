@@ -2,7 +2,7 @@
 class Main {
     constructor() {
         this.canvas = document.getElementById('main');
-        this.sub = document.getElementById('sub');
+        this.input = document.getElementById('input');
         this.canvas.width  = 449; // 16 * 28 + 1
         this.canvas.height = 449; // 16 * 28 + 1
         this.ctx = this.canvas.getContext('2d');
@@ -30,6 +30,8 @@ class Main {
             this.ctx.closePath();
             this.ctx.stroke();
         }
+        this.drawInput();
+        $('#output td').text('').removeClass('success');
     }
     onMouseDown(e) {
         this.canvas.style.cursor = 'default';
@@ -38,7 +40,7 @@ class Main {
     }
     onMouseUp() {
         this.drawing = false;
-        this.drawSub();
+        this.drawInput();
     }
     onMouseMove(e) {
         if (this.drawing) {
@@ -60,8 +62,8 @@ class Main {
             y: clientY - rect.top
         };
     }
-    drawSub() {
-        var ctx = this.sub.getContext('2d');
+    drawInput() {
+        var ctx = this.input.getContext('2d');
         var img = new Image();
         img.onload = () => {
             var inputs = [];
@@ -76,31 +78,42 @@ class Main {
                     ctx.fillRect(j * 5, i * 5, 5, 5);
                 }
             }
+            if (Math.min(...inputs) === 255) {
+                return;
+            }
             $.ajax({
                 url: '/api/mnist',
                 method: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(inputs),
                 success: (data) => {
-                    var max;
-                    var highscore = 0.0;
-                    data.result.forEach((e, i) => {
-                        if (data.result[i] > highscore) {
-                            highscore = data.result[i];
-                            max = i;
+                    for (var i = 0; i < 2; i++) {
+                        var max = 0;
+                        var max_index = 0;
+                        for (var j = 0; j < 10; j++) {
+                            var value = Math.round(data.results[i][j] * 1000);
+                            if (value > max) {
+                                max = value;
+                                max_index = j;
+                            }
+                            var digits = String(value).length;
+                            for (var k = 0; k < 3 - digits; k++) {
+                                value = '0' + value;
+                            }
+                            var text = '0.' + value;
+                            if (value > 999) {
+                                text = '1.000';
+                            }
+                            $('#output tr').eq(j + 1).find('td').eq(i).text(text);
                         }
-                    });
-                    data.result.forEach((e, i) => {
-                        if (i === max) {
-                            $('#output dd').eq(i).html(
-                                $('<strong>').text(String(data.result[i]).substr(0, 5))
-                            );
-                        } else {
-                            $('#output dd').eq(i).html(
-                                $('<span>').text(String(data.result[i]).substr(0, 5))
-                            );
+                        for (var j = 0; j < 10; j++) {
+                            if (j === max_index) {
+                                $('#output tr').eq(j + 1).find('td').eq(i).addClass('success');
+                            } else {
+                                $('#output tr').eq(j + 1).find('td').eq(i).removeClass('success');
+                            }
                         }
-                    });
+                    }
                 }
             });
         };
