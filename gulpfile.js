@@ -3,7 +3,7 @@ var babel = require('gulp-babel');
 var sourcemaps = require('gulp-sourcemaps');
 var uglify = require('gulp-uglify');
 
-gulp.task('build', () => {
+gulp.task('build', function() {
     return gulp.src('src/js/*.js')
         .pipe(babel({ presets: ['es2015'] }))
         .pipe(sourcemaps.init({ loadMaps: true }))
@@ -12,7 +12,7 @@ gulp.task('build', () => {
         .pipe(gulp.dest('static/js'));
 });
 
-gulp.task('watch', () => {
+gulp.task('watch', function() {
     gulp.watch('src/js/*.js', ['build']);
 });
 
