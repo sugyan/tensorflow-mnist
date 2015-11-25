@@ -3,8 +3,19 @@
 - [MNIST For ML Beginners](http://tensorflow.org/tutorials/mnist/beginners/index.md)
 - [Deep MNIST for Experts](http://tensorflow.org/tutorials/mnist/pros/index.md)
 
+![screencast](https://cloud.githubusercontent.com/assets/80381/11339453/f04f885e-923c-11e5-8845-33c16978c54d.gif)
+
+### setup ###
+
+    $ pip install -r requirements.txt
+    $ npm install
+    $ gunicorn main:app --log-file=-
+
+
 ### heroku ###
 
     $ heroku apps:create [NAME]
     $ heroku buildpacks:add heroku/nodejs
     $ heroku buildpacks:add heroku/python
+
+doesn't work...
