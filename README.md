@@ -5,17 +5,22 @@
 
 ![screencast](https://cloud.githubusercontent.com/assets/80381/11339453/f04f885e-923c-11e5-8845-33c16978c54d.gif)
 
-### setup ###
+### Requirement ###
+
+- Python 2.7
+- Node >=4.0
+
+### Setup ###
 
     $ pip install -r requirements.txt
     $ npm install
     $ gunicorn main:app --log-file=-
 
 
-### heroku ###
+### Heroku ###
 
     $ heroku apps:create [NAME]
     $ heroku buildpacks:add heroku/nodejs
     $ heroku buildpacks:add heroku/python
 
-doesn't work...
+but it doesn't work...
