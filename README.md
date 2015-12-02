@@ -17,7 +17,7 @@
     $ gunicorn main:app --log-file=-
 
 
-### Heroku ###
+### Deploy to Heroku ###
 
     $ heroku apps:create [NAME]
     $ heroku buildpacks:add heroku/nodejs
