@@ -1,4 +1,4 @@
-# Online MNIST application using tensoflow #
+# MNIST classification by TensorFlow #
 
 - [MNIST For ML Beginners](http://tensorflow.org/tutorials/mnist/beginners/index.md)
 - [Deep MNIST for Experts](http://tensorflow.org/tutorials/mnist/pros/index.md)
