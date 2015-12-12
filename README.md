@@ -1,4 +1,4 @@
-# Online MNIST application using tensoflow #
+# MNIST classification by TensorFlow #
 
 - [MNIST For ML Beginners](http://tensorflow.org/tutorials/mnist/beginners/index.md)
 - [Deep MNIST for Experts](http://tensorflow.org/tutorials/mnist/pros/index.md)
@@ -17,11 +17,12 @@
     $ gunicorn main:app --log-file=-
 
 
-### Heroku ###
+### Deploy to Heroku ###
 
     $ heroku apps:create [NAME]
     $ heroku buildpacks:add heroku/nodejs
     $ heroku buildpacks:add heroku/python
+    $ git push heroku master
 
 or Heroku Button.
 
