@@ -1,1 +1,1 @@
-../submodules/tensorflow/tensorflow/g3doc/tutorials/mnist/input_data.py
+../submodules/tensorflow/tensorflow/examples/tutorials/mnist/input_data.py
