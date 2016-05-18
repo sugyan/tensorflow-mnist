@@ -1,1 +1,0 @@
-../submodules/tensorflow/tensorflow/examples/tutorials/mnist/input_data.py

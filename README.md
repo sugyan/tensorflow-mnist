@@ -7,7 +7,8 @@
 
 ### Requirement ###
 
-- Python 2.7
+- Python >=3.4
+ - TensorFlow 0.8.0
 - Node >=4.0
 
 ### Setup ###
