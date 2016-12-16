@@ -1,4 +1,4 @@
-/*global $*/
+/* global $ */
 class Main {
     constructor() {
         this.canvas = document.getElementById('main');
@@ -87,10 +87,10 @@ class Main {
                 contentType: 'application/json',
                 data: JSON.stringify(inputs),
                 success: (data) => {
-                    for (var i = 0; i < 2; i++) {
+                    for (let i = 0; i < 2; i++) {
                         var max = 0;
                         var max_index = 0;
-                        for (var j = 0; j < 10; j++) {
+                        for (let j = 0; j < 10; j++) {
                             var value = Math.round(data.results[i][j] * 1000);
                             if (value > max) {
                                 max = value;
@@ -106,7 +106,7 @@ class Main {
                             }
                             $('#output tr').eq(j + 1).find('td').eq(i).text(text);
                         }
-                        for (var j = 0; j < 10; j++) {
+                        for (let j = 0; j < 10; j++) {
                             if (j === max_index) {
                                 $('#output tr').eq(j + 1).find('td').eq(i).addClass('success');
                             } else {
