@@ -1,13 +1,16 @@
 appdirs==1.4.0
 Flask==0.10.1
+funcsigs==1.0.2
 gunicorn==19.3.0
 itsdangerous==0.24
 Jinja2==2.8
 MarkupSafe==0.23
+mock==2.0.0
 numpy==1.12.0
 packaging==16.8
+pbr==1.10.0
 protobuf==3.2.0
 pyparsing==2.1.10
 six==1.10.0
 Werkzeug==0.11.2
-https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-0.12.1-cp35-cp35m-linux_x86_64.whl
+https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-0.12.1-cp27-none-linux_x86_64.whl
