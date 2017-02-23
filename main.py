@@ -1,11 +1,9 @@
-import os
-import sys
-sys.path.append(os.path.join(os.path.dirname(__file__), 'mnist'))
-import model
-
 import numpy as np
 import tensorflow as tf
 from flask import Flask, jsonify, render_template, request
+
+from mnist import model
+
 
 x = tf.placeholder("float", [None, 784])
 sess = tf.Session()

@@ -18,14 +18,15 @@ correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
 saver = tf.train.Saver(variables)
-init = tf.initialize_all_variables()
 with tf.Session() as sess:
-    sess.run(init)
-    for i in range(1000):
+    sess.run(tf.global_variables_initializer())
+    for _ in range(1000):
         batch_xs, batch_ys = data.train.next_batch(100)
         sess.run(train_step, feed_dict={x: batch_xs, y_: batch_ys})
 
     print(sess.run(accuracy, feed_dict={x: data.test.images, y_: data.test.labels}))
 
-    path = saver.save(sess, os.path.join(os.path.dirname(__file__), "data/regression.ckpt"))
+    path = saver.save(
+        sess, os.path.join(os.path.dirname(__file__), 'data', 'regression.ckpt'),
+        write_meta_graph=False, write_state=False)
     print("Saved:", path)

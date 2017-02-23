@@ -19,9 +19,8 @@ correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
 saver = tf.train.Saver(variables)
-init = tf.initialize_all_variables()
 with tf.Session() as sess:
-    sess.run(init)
+    sess.run(tf.global_variables_initializer())
     for i in range(20000):
         batch = data.train.next_batch(50)
         if i % 100 == 0:
@@ -31,5 +30,7 @@ with tf.Session() as sess:
 
     print(sess.run(accuracy, feed_dict={x: data.test.images, y_: data.test.labels, keep_prob: 1.0}))
 
-    path = saver.save(sess, os.path.join(os.path.dirname(__file__), "data/convolutional.ckpt"))
+    path = saver.save(
+        sess, os.path.join(os.path.dirname(__file__), 'data', 'convolutional.ckpt'),
+        write_meta_graph=False, write_state=False)
     print("Saved:", path)
