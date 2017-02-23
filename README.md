@@ -8,7 +8,7 @@
 ### Requirement ###
 
 - Python >=2.7 or >=3.4
-  - TensorFlow >=0.12.1
+  - TensorFlow >=1.0
 - Node >=6.9
 
 
